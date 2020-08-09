@@ -1,4 +1,6 @@
-# Method for the BinarySearch
+from colorama import init
+from termcolor import colored
+
 
 """
 
@@ -9,25 +11,38 @@ Same goes for the second half. It returns the index when it arrives on the desir
 """
 
 
-def BinarySearch(arr, x, i, l):
+# Method for the BinarySearch
+def BinarySearch(arr, i, l, x):
     # Checks if the array isn't just one number
-    if l >= 1:
+
+    if l >= i:
         # Finding the middle index in the array
-        mid = i + (l-1) // 2
+        mid = i + (l - i) // 2
 
         # If the wanted number is the middle number, it returns the middle index
         if arr[mid] == x:
             return mid
         elif arr[mid] > x:
             # If it's in the first half
-            BinarySearch(arr, x, i, mid - 1)
+            # Bug fix: Didn't know that i need to use return when calling a recursive function
+            return BinarySearch(arr, i, mid - 1, x)
         else:
             # If it's in the second half
-            BinarySearch(arr, x, mid + 1, l)
+            return BinarySearch(arr, mid + 1, l, x)
 
     # If it's not found, it returns -1
     else:
         return -1
 
 
-array = [1, 3, 4, 5, 7, 8, 9, 13, 16, 18, 19, 20, 24, 25, 30, 33]
+# Array and wanted number
+array = [1, 2, 3, 4, 5]
+x = int(input("Enter a number: "))
+
+# Custom input for desired number
+result = BinarySearch(array, 0, len(array) - 1, x)
+
+if result != -1:
+    print("The number is at the " + colored(str(result), 'green') + " index!")
+else:
+    print(colored('The number is not in the array!', 'red'))
